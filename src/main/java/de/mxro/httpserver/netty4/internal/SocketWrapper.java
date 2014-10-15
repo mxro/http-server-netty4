@@ -1,5 +1,7 @@
 package de.mxro.httpserver.netty4.internal;
 
+import io.netty.handler.codec.http.HttpRequest;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -10,9 +12,6 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.jboss.netty.channel.MessageEvent;
-import org.jboss.netty.handler.codec.http.HttpRequest;
 
 import de.mxro.fn.Closure;
 import de.mxro.fn.SuccessFail;
@@ -92,13 +91,13 @@ public class SocketWrapper implements ByteStreamHandler {
 
             @Override
             public HttpMethod getMethod() {
-                if (request.getMethod().equals(org.jboss.netty.handler.codec.http.HttpMethod.POST)) {
+                if (request.getMethod().equals(io.netty.handler.codec.http.HttpMethod.POST)) {
                     return HttpMethod.POST;
-                } else if (request.getMethod().equals(org.jboss.netty.handler.codec.http.HttpMethod.GET)) {
+                } else if (request.getMethod().equals(io.netty.handler.codec.http.HttpMethod.GET)) {
                     return HttpMethod.GET;
-                } else if (request.getMethod().equals(org.jboss.netty.handler.codec.http.HttpMethod.PUT)) {
+                } else if (request.getMethod().equals(io.netty.handler.codec.http.HttpMethod.PUT)) {
                     return HttpMethod.PUT;
-                } else if (request.getMethod().equals(org.jboss.netty.handler.codec.http.HttpMethod.DELETE)) {
+                } else if (request.getMethod().equals(io.netty.handler.codec.http.HttpMethod.DELETE)) {
                     return HttpMethod.DELETE;
                 }
                 throw new IllegalStateException("Http method not supported: " + request.getMethod());
