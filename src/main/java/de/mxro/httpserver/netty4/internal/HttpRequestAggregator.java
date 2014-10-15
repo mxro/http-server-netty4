@@ -7,7 +7,11 @@ package de.mxro.httpserver.netty4.internal;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpContent;
+import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpResponse;
+import io.netty.handler.codec.http.LastHttpContent;
+import io.netty.util.CharsetUtil;
 
 import java.io.ByteArrayOutputStream;
 
@@ -32,29 +36,21 @@ public class HttpRequestAggregator extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(final ChannelHandlerContext ctx, final Object msg) {
-        if (msg instanceof HttpRequest) {
+        if (msg instanceof HttpResponse) {
+            final HttpResponse response = (HttpResponse) msg;
 
-            if (!chunked) {
-                final HttpRequest request = (HttpRequest) msg;
+            if (response.getStatus().code() == 200 && HttpHeaders.isTransferEncodingChunked(response)) {
+                chunked = true;
+            }
+        }
+        if (msg instanceof HttpContent) {
+            final HttpContent chunk = (HttpContent) msg;
 
-                final ChannelBuffer buffer = request.getContent();
-                receivedData.write(buffer.array());
+            if (chunk instanceof LastHttpContent) {
 
-                if (!request.isChunked()) {
-                    byteStreamHandler.processRequest(receivedData, e);
-                } else {
-                    chunked = true;
-
-                }
-
+                chunked = false;
             } else {
-                final HttpChunk chunk = (HttpChunk) e.getMessage();
-                final ChannelBuffer buffer = chunk.getContent();
-                receivedData.write(buffer.array());
-
-                if (chunk.isLast()) {
-                    byteStreamHandler.processRequest(receivedData, e);
-                }
+                System.err.println(chunk.content().toString(CharsetUtil.UTF_8));
             }
         }
 
