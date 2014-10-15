@@ -11,9 +11,9 @@ import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.LastHttpContent;
-import io.netty.util.CharsetUtil;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import de.mxro.httpserver.netty4.ByteStreamHandler;
 
@@ -46,11 +46,22 @@ public class HttpRequestAggregator extends ChannelInboundHandlerAdapter {
         if (msg instanceof HttpContent) {
             final HttpContent chunk = (HttpContent) msg;
 
-            if (chunk instanceof LastHttpContent) {
+            try {
+                receivedData.write(chunk.content().array());
+            } catch (final IOException e) {
+                throw new RuntimeException(e);
+            }
 
+            if (!chunked) {
+                byteStreamHandler.processRequest(receivedData, chunk);
+                return;
+            }
+
+            if (chunk instanceof LastHttpContent) {
                 chunked = false;
-            } else {
-                System.err.println(chunk.content().toString(CharsetUtil.UTF_8));
+
+                byteStreamHandler.processRequest(receivedData, chunk);
+
             }
         }
 
