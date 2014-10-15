@@ -5,6 +5,7 @@
  ******************************************************************************/
 package de.mxro.httpserver.netty4.internal;
 
+import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.SocketChannelConfig;
 import io.netty.handler.codec.http.HttpRequest;
@@ -18,7 +19,7 @@ import de.mxro.httpserver.netty4.ByteStreamHandler;
  * @author <a href="http://www.mxro.de/">Max Rohde</a>
  * 
  */
-public class HttpRequestAggregator extends SimpleChannelUpstreamHandler {
+public class HttpRequestAggregator extends ChannelHandlerAdapter {
 
     protected final ByteStreamHandler byteStreamHandler;
 
@@ -31,7 +32,7 @@ public class HttpRequestAggregator extends SimpleChannelUpstreamHandler {
     }
 
     @Override
-    public void messageReceived(final ChannelHandlerContext ctx, final MessageEvent e) throws Exception {
+    public void messageReceived(final ChannelHandlerContext ctx, final Object msg) throws Exception {
 
         e.getChannel().getConfig().setConnectTimeoutMillis(15000);
 
