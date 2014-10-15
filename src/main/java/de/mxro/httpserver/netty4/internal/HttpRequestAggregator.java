@@ -5,9 +5,8 @@
  ******************************************************************************/
 package de.mxro.httpserver.netty4.internal;
 
-import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.socket.SocketChannelConfig;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.HttpRequest;
 
 import java.io.ByteArrayOutputStream;
@@ -19,7 +18,7 @@ import de.mxro.httpserver.netty4.ByteStreamHandler;
  * @author <a href="http://www.mxro.de/">Max Rohde</a>
  * 
  */
-public class HttpRequestAggregator extends ChannelHandlerAdapter {
+public class HttpRequestAggregator extends ChannelInboundHandlerAdapter {
 
     protected final ByteStreamHandler byteStreamHandler;
 
@@ -27,43 +26,44 @@ public class HttpRequestAggregator extends ChannelHandlerAdapter {
     private boolean chunked;
 
     @Override
-    public void exceptionCaught(final ChannelHandlerContext ctx, final ExceptionEvent e) throws Exception {
-        throw new RuntimeException(e.getCause());
+    public void channelReadComplete(final ChannelHandlerContext ctx) {
+        ctx.flush();
     }
 
     @Override
-    public void messageReceived(final ChannelHandlerContext ctx, final Object msg) throws Exception {
+    public void channelRead(final ChannelHandlerContext ctx, final Object msg) {
+        if (msg instanceof HttpRequest) {
 
-        e.getChannel().getConfig().setConnectTimeoutMillis(15000);
+            if (!chunked) {
+                final HttpRequest request = (HttpRequest) msg;
 
-        if (e.getChannel().getConfig() instanceof SocketChannelConfig) {
-            final SocketChannelConfig config = (SocketChannelConfig) e.getChannel().getConfig();
-            config.setKeepAlive(true);
-        }
+                final ChannelBuffer buffer = request.getContent();
+                receivedData.write(buffer.array());
 
-        if (!chunked) {
-            final HttpRequest request = (HttpRequest) e.getMessage();
+                if (!request.isChunked()) {
+                    byteStreamHandler.processRequest(receivedData, e);
+                } else {
+                    chunked = true;
 
-            final ChannelBuffer buffer = request.getContent();
-            receivedData.write(buffer.array());
+                }
 
-            if (!request.isChunked()) {
-                byteStreamHandler.processRequest(receivedData, e);
             } else {
-                chunked = true;
+                final HttpChunk chunk = (HttpChunk) e.getMessage();
+                final ChannelBuffer buffer = chunk.getContent();
+                receivedData.write(buffer.array());
 
-            }
-
-        } else {
-            final HttpChunk chunk = (HttpChunk) e.getMessage();
-            final ChannelBuffer buffer = chunk.getContent();
-            receivedData.write(buffer.array());
-
-            if (chunk.isLast()) {
-                byteStreamHandler.processRequest(receivedData, e);
+                if (chunk.isLast()) {
+                    byteStreamHandler.processRequest(receivedData, e);
+                }
             }
         }
 
+    }
+
+    @Override
+    public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) {
+        ctx.close();
+        throw new RuntimeException(cause.getCause());
     }
 
     public HttpRequestAggregator(final ByteStreamHandler byteStreamHandler) {
