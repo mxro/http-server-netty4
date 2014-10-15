@@ -1,6 +1,6 @@
 package de.mxro.httpserver.netty4.internal;
 
-import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpContent;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -29,8 +29,8 @@ public class SocketWrapper implements ByteStreamHandler {
     private final HttpService service;
 
     @Override
-    public void processRequest(final ByteArrayOutputStream receivedData, final MessageEvent e) {
-        final HttpRequest request = (HttpRequest) e.getMessage();
+    public void processRequest(final ByteArrayOutputStream receivedData, final HttpContent request) {
+
         final Response response = HttpServer.createResponse();
 
         final InetSocketAddress inetSocketAddress = (InetSocketAddress) e.getChannel().getRemoteAddress();
