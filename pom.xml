@@ -3,11 +3,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<artifactId>http-server-netty4</artifactId>
-	<groupId>de.mxro.httpserver.netty4</groupId>
+	<groupId>de.mxro.httpserver.netty3</groupId>
 	<version>0.0.2-SNAPSHOT</version>
 	<description>An implementation of the http-server API for Netty 4.
 	</description>
-	<url>https://github.com/mxro/http-server-netty4</url>
+	<url>https://github.com/mxro/http-server-netty3</url>
 
 	<properties>
 		<module.gwtVersion>2.5.1</module.gwtVersion>
@@ -37,8 +37,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>mx.sslutils</groupId>
-			<artifactId>mxSslUtils</artifactId>
+			<artifactId>java-ssl-utils</artifactId>
+			<groupId>de.mxro.sslutils</groupId>
 			<version>[0.0.1,)</version>
 		</dependency>
 
@@ -349,7 +349,7 @@
 
 		</resources>
 
-
+		
 	</build>
 
 	<distributionManagement>
