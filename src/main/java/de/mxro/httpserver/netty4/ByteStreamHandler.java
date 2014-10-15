@@ -7,12 +7,8 @@ package de.mxro.httpserver.netty4;
 
 import java.io.ByteArrayOutputStream;
 
-import org.jboss.netty.channel.MessageEvent;
-
 public interface ByteStreamHandler {
 
-    public void processRequest(ByteArrayOutputStream receivedData,
-            MessageEvent e);
-
+    public void processRequest(ByteArrayOutputStream receivedData, MessageEvent e);
 
 }
