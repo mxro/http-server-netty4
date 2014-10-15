@@ -29,11 +29,11 @@ public class SocketWrapper implements ByteStreamHandler {
     private final HttpService service;
 
     @Override
-    public void processRequest(final ByteArrayOutputStream receivedData, final HttpContent request) {
+    public void processRequest(final ByteArrayOutputStream receivedData, final HttpContent e) {
 
         final Response response = HttpServer.createResponse();
 
-        final InetSocketAddress inetSocketAddress = (InetSocketAddress) e.getChannel().getRemoteAddress();
+        final InetSocketAddress inetSocketAddress = (InetSocketAddress) request.getChannel().getRemoteAddress();
         final InetAddress inetAddress = inetSocketAddress.getAddress();
 
         final Address address = new Address() {
