@@ -9,11 +9,11 @@ import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.Channel;
 
 import de.mxro.async.callbacks.SimpleCallback;
-import de.mxro.httpserver.netty4.Netty3ServerComponent;
+import de.mxro.httpserver.netty4.Netty4ServerComponent;
 import de.mxro.server.ComponentConfiguration;
 import de.mxro.server.ComponentContext;
 
-public class InternalNettyRestServer implements Netty3ServerComponent {
+public class InternalNettyRestServer implements Netty4ServerComponent {
 
     protected final Channel channel;
     protected final int port;

@@ -5,25 +5,14 @@
  ******************************************************************************/
 package de.mxro.httpserver.netty4;
 
-import java.net.InetSocketAddress;
-import java.util.concurrent.Executors;
-
-import mx.sslutils.SslKeyStoreData;
-
-import org.jboss.netty.bootstrap.ServerBootstrap;
-import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
-
 import de.mxro.async.Value;
 import de.mxro.async.callbacks.ValueCallback;
 import de.mxro.httpserver.HttpService;
-import de.mxro.httpserver.netty4.internal.InternalNettyRestServer;
-import de.mxro.httpserver.netty4.internal.RestServerPipelineFactory;
-import de.mxro.httpserver.netty4.internal.SocketWrapper;
 import de.mxro.httpserver.services.Services;
 import de.mxro.server.ServerComponent;
+import de.mxro.sslutils.SslKeyStoreData;
 
-public class Netty3Server {
+public class Netty4Server {
 
     /**
      * Secret must be supplied as URI path.
@@ -34,11 +23,11 @@ public class Netty3Server {
      * @return
      */
     public static void startShutdownServer(final int port, final String secret, final ServerComponent operations,
-            final ValueCallback<Netty3ServerComponent> callback) {
+            final ValueCallback<Netty4ServerComponent> callback) {
 
         final Value<ServerComponent> ownServer = new Value<ServerComponent>(null);
 
-        final Netty3ServerConfiguration conf = new Netty3ServerConfiguration() {
+        final Netty4ServerConfiguration conf = new Netty4ServerConfiguration() {
 
             @Override
             public boolean getUseSsl() {
@@ -62,7 +51,7 @@ public class Netty3Server {
             }
         };
 
-        start(conf, new ValueCallback<Netty3ServerComponent>() {
+        start(conf, new ValueCallback<Netty4ServerComponent>() {
 
             @Override
             public void onFailure(final Throwable t) {
@@ -70,7 +59,7 @@ public class Netty3Server {
             }
 
             @Override
-            public void onSuccess(final Netty3ServerComponent value) {
+            public void onSuccess(final Netty4ServerComponent value) {
                 ownServer.set(value);
                 callback.onSuccess(value);
             }
@@ -78,30 +67,13 @@ public class Netty3Server {
 
     }
 
-    public static void start(final Netty3ServerConfiguration conf, final ValueCallback<Netty3ServerComponent> callback) {
-
-        final NioServerSocketChannelFactory socketChannelFactory = new NioServerSocketChannelFactory(
-                Executors.newCachedThreadPool(), Executors.newCachedThreadPool());
-
-        final ServerBootstrap bootstrap = new ServerBootstrap(socketChannelFactory);
-
-        bootstrap.setOption("child.keepAlive", true);
-
-        final ByteStreamHandler messageHandler = new SocketWrapper(Services.safeShutdown(conf.getService()));
-
-        bootstrap.setPipelineFactory(new RestServerPipelineFactory(messageHandler, conf.getUseSsl(), conf
-                .getSslKeyStore()));
-
-        // Bind and start to accept incoming connections.
-        final Channel server = bootstrap.bind(new InetSocketAddress(conf.getPort()));
-
-        callback.onSuccess(new InternalNettyRestServer(server, conf.getPort(), bootstrap));
+    public static void start(final Netty4ServerConfiguration conf, final ValueCallback<Netty4ServerComponent> callback) {
 
     }
 
     public static void start(final HttpService service, final int port,
-            final ValueCallback<Netty3ServerComponent> callback) {
-        final Netty3ServerConfiguration configuration = new Netty3ServerConfiguration() {
+            final ValueCallback<Netty4ServerComponent> callback) {
+        final Netty4ServerConfiguration configuration = new Netty4ServerConfiguration() {
 
             @Override
             public boolean getUseSsl() {
