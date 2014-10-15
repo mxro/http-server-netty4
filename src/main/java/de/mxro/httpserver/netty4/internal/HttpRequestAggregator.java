@@ -5,16 +5,11 @@
  ******************************************************************************/
 package de.mxro.httpserver.netty4.internal;
 
-import java.io.ByteArrayOutputStream;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.socket.SocketChannelConfig;
+import io.netty.handler.codec.http.HttpRequest;
 
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.channel.ChannelHandlerContext;
-import org.jboss.netty.channel.ExceptionEvent;
-import org.jboss.netty.channel.MessageEvent;
-import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
-import org.jboss.netty.channel.socket.SocketChannelConfig;
-import org.jboss.netty.handler.codec.http.HttpChunk;
-import org.jboss.netty.handler.codec.http.HttpRequest;
+import java.io.ByteArrayOutputStream;
 
 import de.mxro.httpserver.netty4.ByteStreamHandler;
 

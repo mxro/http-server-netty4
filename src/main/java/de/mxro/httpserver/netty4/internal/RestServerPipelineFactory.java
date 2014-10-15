@@ -5,22 +5,16 @@
  ******************************************************************************/
 package de.mxro.httpserver.netty4.internal;
 
-import static org.jboss.netty.channel.Channels.pipeline;
+import io.netty.channel.ChannelPipeline;
+import io.netty.handler.codec.http.HttpContentCompressor;
+import io.netty.handler.codec.http.HttpRequestDecoder;
+import io.netty.handler.codec.http.HttpResponseEncoder;
+import io.netty.handler.ssl.SslHandler;
 
 import javax.net.ssl.SSLEngine;
 
-import mx.sslutils.MxSslUtils;
-import mx.sslutils.SslKeyStoreData;
-
-import org.jboss.netty.channel.ChannelPipeline;
-import org.jboss.netty.channel.ChannelPipelineFactory;
-import org.jboss.netty.handler.codec.http.HttpChunkAggregator;
-import org.jboss.netty.handler.codec.http.HttpContentCompressor;
-import org.jboss.netty.handler.codec.http.HttpRequestDecoder;
-import org.jboss.netty.handler.codec.http.HttpResponseEncoder;
-import org.jboss.netty.handler.ssl.SslHandler;
-
 import de.mxro.httpserver.netty4.ByteStreamHandler;
+import de.mxro.sslutils.SslKeyStoreData;
 
 /**
  * 

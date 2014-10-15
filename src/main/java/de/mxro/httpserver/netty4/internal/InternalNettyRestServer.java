@@ -5,9 +5,8 @@
  ******************************************************************************/
 package de.mxro.httpserver.netty4.internal;
 
-import org.jboss.netty.bootstrap.ServerBootstrap;
-import org.jboss.netty.channel.Channel;
-
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.Channel;
 import de.mxro.async.callbacks.SimpleCallback;
 import de.mxro.httpserver.netty4.Netty4ServerComponent;
 import de.mxro.server.ComponentConfiguration;
@@ -71,7 +70,7 @@ public class InternalNettyRestServer implements Netty4ServerComponent {
     public void destroy(final SimpleCallback callback) {
 
         channel.close().awaitUninterruptibly(1000 * 20);
-        bootstrap.releaseExternalResources();
+        // bootstrap.releaseExternalResources();
 
         callback.onSuccess();
 
