@@ -3,13 +3,13 @@
  * 
  * All rights reserved.
  ******************************************************************************/
-package de.mxro.httpserver.netty3.internal;
+package de.mxro.httpserver.netty4.internal;
 
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.Channel;
 
 import de.mxro.async.callbacks.SimpleCallback;
-import de.mxro.httpserver.netty3.Netty3ServerComponent;
+import de.mxro.httpserver.netty4.Netty3ServerComponent;
 import de.mxro.server.ComponentConfiguration;
 import de.mxro.server.ComponentContext;
 

@@ -3,7 +3,7 @@
  * 
  * All rights reserved.
  ******************************************************************************/
-package de.mxro.httpserver.netty3;
+package de.mxro.httpserver.netty4;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
@@ -17,9 +17,9 @@ import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import de.mxro.async.Value;
 import de.mxro.async.callbacks.ValueCallback;
 import de.mxro.httpserver.HttpService;
-import de.mxro.httpserver.netty3.internal.InternalNettyRestServer;
-import de.mxro.httpserver.netty3.internal.RestServerPipelineFactory;
-import de.mxro.httpserver.netty3.internal.SocketWrapper;
+import de.mxro.httpserver.netty4.internal.InternalNettyRestServer;
+import de.mxro.httpserver.netty4.internal.RestServerPipelineFactory;
+import de.mxro.httpserver.netty4.internal.SocketWrapper;
 import de.mxro.httpserver.services.Services;
 import de.mxro.server.ServerComponent;
 

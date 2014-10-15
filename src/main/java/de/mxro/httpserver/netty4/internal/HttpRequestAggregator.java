@@ -3,7 +3,7 @@
  * 
  * All rights reserved.
  ******************************************************************************/
-package de.mxro.httpserver.netty3.internal;
+package de.mxro.httpserver.netty4.internal;
 
 import java.io.ByteArrayOutputStream;
 
@@ -16,7 +16,7 @@ import org.jboss.netty.channel.socket.SocketChannelConfig;
 import org.jboss.netty.handler.codec.http.HttpChunk;
 import org.jboss.netty.handler.codec.http.HttpRequest;
 
-import de.mxro.httpserver.netty3.ByteStreamHandler;
+import de.mxro.httpserver.netty4.ByteStreamHandler;
 
 /**
  * 

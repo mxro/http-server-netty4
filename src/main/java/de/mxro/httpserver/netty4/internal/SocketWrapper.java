@@ -1,4 +1,4 @@
-package de.mxro.httpserver.netty3.internal;
+package de.mxro.httpserver.netty4.internal;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -23,7 +23,7 @@ import de.mxro.httpserver.HttpService;
 import de.mxro.httpserver.IPVersion;
 import de.mxro.httpserver.Request;
 import de.mxro.httpserver.Response;
-import de.mxro.httpserver.netty3.ByteStreamHandler;
+import de.mxro.httpserver.netty4.ByteStreamHandler;
 
 public class SocketWrapper implements ByteStreamHandler {
 

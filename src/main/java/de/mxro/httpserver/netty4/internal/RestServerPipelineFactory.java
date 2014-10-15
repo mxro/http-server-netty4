@@ -3,7 +3,7 @@
  * 
  * All rights reserved.
  ******************************************************************************/
-package de.mxro.httpserver.netty3.internal;
+package de.mxro.httpserver.netty4.internal;
 
 import static org.jboss.netty.channel.Channels.pipeline;
 
@@ -20,7 +20,7 @@ import org.jboss.netty.handler.codec.http.HttpRequestDecoder;
 import org.jboss.netty.handler.codec.http.HttpResponseEncoder;
 import org.jboss.netty.handler.ssl.SslHandler;
 
-import de.mxro.httpserver.netty3.ByteStreamHandler;
+import de.mxro.httpserver.netty4.ByteStreamHandler;
 
 /**
  * 

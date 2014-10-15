@@ -1,4 +1,4 @@
-package de.mxro.httpserver.netty3.internal;
+package de.mxro.httpserver.netty4.internal;
 
 import static org.jboss.netty.handler.codec.http.HttpHeaders.Names.CONTENT_TYPE;
 import static org.jboss.netty.handler.codec.http.HttpResponseStatus.OK;

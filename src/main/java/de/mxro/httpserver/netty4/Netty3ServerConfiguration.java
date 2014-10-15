@@ -1,4 +1,4 @@
-package de.mxro.httpserver.netty3;
+package de.mxro.httpserver.netty4;
 
 import mx.sslutils.SslKeyStoreData;
 import de.mxro.httpserver.HttpService;

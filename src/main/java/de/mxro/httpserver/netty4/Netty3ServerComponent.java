@@ -3,7 +3,7 @@
  * 
  * All rights reserved.
  ******************************************************************************/
-package de.mxro.httpserver.netty3;
+package de.mxro.httpserver.netty4;
 
 import org.jboss.netty.channel.Channel;
 
